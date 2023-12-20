@@ -91,8 +91,8 @@ def listar_pastas(caminho):
 
 
 def excluir_ultimos_digitos(palavra):
-    #return palavra[:-4]
-    return palavra
+    return palavra[:-4]
+    #return palavra
 
 def data_atual():
     
@@ -102,3 +102,8 @@ def data_atual():
     # Converte a data atual em uma string formatada
     data_atual_str = data_atual.strftime("%Y-%m-%d %H:%M:%S")
     return data_atual_str
+
+# Função de adicionar uma linha sem editar o que tinha anteriormente no txt
+def add_line(caminho, line):
+    with open(caminho, 'a') as f:
+        f.write(line + '\n')

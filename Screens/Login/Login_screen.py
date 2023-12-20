@@ -99,8 +99,7 @@ def menu_pub_txt(owner):
             menu_pub_txt(owner)
        
         case '2':
-            Sn.list_news(owner)
-            menu_pub_txt(owner)
+            print(Sn.list_all_news())
      
         case '3':
             Mm.menu_txt()

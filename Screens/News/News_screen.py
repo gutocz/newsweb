@@ -65,6 +65,42 @@ def news_choice_txt(owner, id):
                 print('Opção inválida.')
                 edit_list_txt(owner)
 
+def news_choice_search_txt(owner, id, creator): #creator é quem está acessando a notícia, já owner é o dono
+    print('╔═══════════════════════╗')
+    print('║  NOTÍCIA SELECIONADA  ║')
+    print('╚═══════════════════════╝')
+    print(Ns.get_news(owner, id)[2])
+    print(len(Ns.get_news(owner, id)[2])*'=')
+    print(Ns.get_news(owner, id)[3])
+    print('\nAuthor: ' + Ns.get_news(owner, id)[0])
+    print('Likes: ' + Ns.get_news(owner, id)[5])
+    print('Date of Publish: ' + Ns.get_news(owner, id)[4])
+    print(len(Ns.get_news(owner, id)[2])*'=')
+    print('Comentários: ')
+    #Listando todos os comentários da noticia
+    for i in Ns.get_comments(owner, id, creator):
+        for j in i:
+            print(j)
+    
+    option = input('0- Voltar\n1- Curtir\n2- Comentar\n')
+    match option:
+        
+        case '0':
+            Ls.menu_pub_txt(creator)
+        
+        case '1':
+            Ns.like_news(id, owner, creator)
+            news_choice_search_txt(owner, id, creator)
+        
+        case '2':
+            print('Deixe se comentário: ')
+            comment = input()
+            Ns.comment_news(id, owner, creator, comment)
+        
+        case _:
+                print('Opção inválida.')
+                edit_list_txt(owner)
+
 
 def edit_list_txt(owner):
     
@@ -123,8 +159,32 @@ def search_screen_txt(owner):
     else:
         
         for r in result:
-            print('Título: ' + Ns.get_news(r.split(':')[0], r.split(':')[1])[2] + ' || Autor: ' + Ns.get_news(r.split(':')[0], r.split(':')[1])[0])
+            print('Título: ' + Ns.get_news(r.split(':')[0], r.split(':')[1])[2] + ' || Autor: ' + Ns.get_news(r.split(':')[0], r.split(':')[1])[0] + ' || Id: ' + r.split(':')[1])
+        print('Insira o nome do autor e o id da noticia para visualiza-la')
+        nome_autor = input('Autor: ')
+        id_noticia = input('Id: ')
+        news_choice_search_txt(nome_autor, id_noticia, owner)
+
+# ============================================================================================
+# Telas para interação Leitor - Notícias
+
+def list_news_user_txt(creator, owner):
+    print('╔═══════════════════╗')
+    print('║ LISTAS DO USUÁRIO ║')
+    print('╚═══════════════════╝')
     
+    noticias = Ns.list_news(owner)
+
+    for n in noticias:
+        print(n + '. ' + Ns.get_news(owner, n)[2])
+    
+    id_news = input('\nSelecione uma notícia para abrir: \n0- Voltar\n')
+    
+    if id_news == '0':
+        Ls.menu_pub_txt(creator)
+    
+    else:
+        news_choice_search_txt(owner, id_news, creator)
 
 
 # ==================================================================

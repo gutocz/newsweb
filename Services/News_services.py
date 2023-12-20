@@ -69,16 +69,38 @@ def search_news(termo):
 def like_news(id, owner, who_liked):
     
     news = get_news(owner, id)
-    news[5] = str(int(news[5]) + 1)
-    Uu.edit_file(directoryUsers + '/' + owner + '/News/' + id + '/' + id + '.txt', news[0] + '\n' + news[1] + '\n' + news[2] + '\n' + news[3] + '\n' + news[4] + '\n' + news[5])
-   
+
     if not Uu.exists_dir(directoryUsers + '/' + who_liked + '/' + 'posts_liked.txt'):
         Uu.edit_file(directoryUsers + '/' + who_liked + '/' + 'posts_liked.txt', owner + ':' + id + '\n')
+        news[5] = str(int(news[5]) + 1)
+        Uu.edit_file(directoryUsers + '/' + owner + '/News/' + id + '/' + id + '.txt', news[0] + '\n' + news[1] + '\n' + news[2] + '\n' + news[3] + '\n' + news[4] + '\n' + news[5])
     
     else:
         print('Voce ja curtiu essa noticia!')
     
 
 
-def comment_news():
-    print()
+def comment_news(id, owner, creator, comment):
+    if not Uu.exists_dir(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + creator + '.txt'):
+        Uu.edit_file(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + creator + '.txt', creator + ' - ' + comment + '\n')
+    else:
+        Uu.add_line(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + creator + '.txt', creator + ' - ' + comment)
+
+def get_comments(owner, id, creator):
+    result = []
+    if creator != '':
+        for usuario in Uu.listar_arquivos(directoryUsers + '/' + owner + '/News/' + id + '/Comments'):
+            temp = Uu.ler_arquivo(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + usuario + '.txt')
+            result.append(temp)
+    return result
+
+def list_all_news():
+    directoryUsers = './Users/'
+    result = []
+    
+    users = Uu.listar_pastas(directoryUsers)
+    for user in users:
+        news = Uu.listar_pastas(directoryUsers + user + '/News')
+        for new in news:
+            result.append(get_news(user, new))
+    return result
