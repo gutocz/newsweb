@@ -1,8 +1,9 @@
 # File for shape news
 
 # Imports
+from email import utils
 import Services.News_services as Ns
-from Util.Util_functions import data_atual
+from Util.Util_functions import *
 import Screens.Login.Login_screen as Ls
 
 # Functions for news
@@ -55,11 +56,17 @@ def news_choice_txt(owner, id):
     print('Date of Publish: ' + Ns.get_news(owner, id)[4])
     print(len(Ns.get_news(owner, id)[2])*'=')
     
-    option = input('0- Voltar\n')
+    option = input('0- Voltar\n1- Deletar noticia\n2- Editar noticia\n')
     match option:
         
         case '0':
             list_news_txt(owner)
+
+        case '1':
+            delete_dir(f'./Users' + '/{owner}' + '/News' + '/{id}')
+
+        case '2':
+            edit_list_txt(owner)
         
         case _:
                 print('Opção inválida.')

@@ -56,12 +56,14 @@ def search_news(termo):
     result = []
    
     for user in Us.list_users():
+
+        if Uu.exists_dir(directoryUsers + '/' + user + '/News'):
       
-        for id in list_news(user):
-            news = get_news(user, id)
-            
-            if termo.lower() in news[2].lower() or termo.lower() in news[3].lower():
-                result.append(str(news[0]) + ':' + str(news[1])) # Guia: [0] = owner, [1] = id
+            for id in list_news(user):
+                news = get_news(user, id)
+                
+                if termo.lower() in news[2].lower() or termo.lower() in news[3].lower():
+                    result.append(str(news[0]) + ':' + str(news[1])) # Guia: [0] = owner, [1] = id
     
     return result
 
@@ -81,17 +83,22 @@ def like_news(id, owner, who_liked):
 
 
 def comment_news(id, owner, creator, comment):
+   
     if not Uu.exists_dir(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + creator + '.txt'):
         Uu.edit_file(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + creator + '.txt', creator + ' - ' + comment + '\n')
+   
     else:
         Uu.add_line(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + creator + '.txt', creator + ' - ' + comment)
 
 def get_comments(owner, id, creator):
     result = []
+   
     if creator != '':
+      
         for usuario in Uu.listar_arquivos(directoryUsers + '/' + owner + '/News/' + id + '/Comments'):
             temp = Uu.ler_arquivo(directoryUsers + '/' + owner + '/News/' + id + '/Comments/' + usuario + '.txt')
             result.append(temp)
+  
     return result
 
 def list_all_news():
@@ -99,8 +106,11 @@ def list_all_news():
     result = []
     
     users = Uu.listar_pastas(directoryUsers)
+  
     for user in users:
         news = Uu.listar_pastas(directoryUsers + user + '/News')
+       
         for new in news:
             result.append(get_news(user, new))
+   
     return result

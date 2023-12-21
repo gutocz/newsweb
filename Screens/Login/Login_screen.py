@@ -45,10 +45,8 @@ def menu_adm_txt(owner):
     print('╠══════════════════════╣')
     print('║  1 - Criar notícia   ║')
     print('║  2 - Listar notícia  ║')
-    print('║  3 - Deletar notícia ║')
-    print('║  4 - Editar notícia  ║')
-    print('║  5 - Buscar notícia  ║')
-    print('║  6 - Sair            ║')
+    print('║  3 - Buscar notícia  ║')
+    print('║  4 - Sair            ║')
     print('╚══════════════════════╝')
     
     options = input('Selecione uma das opções acima: ')
@@ -63,18 +61,10 @@ def menu_adm_txt(owner):
             menu_adm_txt(owner)
       
         case '3':
-            Ns.delete_list_txt(owner)
+            Ns.search_screen_txt(owner)
             menu_adm_txt(owner)
        
         case '4':
-            Ns.edit_list_txt(owner)
-            menu_adm_txt(owner)
-       
-        case '5':
-            #Sn.search_news()
-            menu_adm_txt(owner)
-       
-        case '6':
             Mm.menu_txt()
       
         case _:
@@ -100,7 +90,7 @@ def menu_pub_txt(owner):
        
         case '2':
             print(Sn.list_all_news())
-     
+            menu_pub_txt(owner)
         case '3':
             Mm.menu_txt()
        
